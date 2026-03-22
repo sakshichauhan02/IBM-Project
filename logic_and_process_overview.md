@@ -1,10 +1,10 @@
-# 🤖 AI Hiring Copilot: Logic & Process Overview
+AI Hiring Copilot: Logic & Process Overview
 
 This document provides a detailed breakdown of the internal logic, data flow, and processing steps used by the AI Hiring Copilot to rank resumes against job descriptions (JDs).
 
 ---
 
-## 🏗️ 1. System Architecture
+1. System Architecture
 The application is built with a modular architecture, separating the UI from the core processing logic:
 
 | Component | Responsibility | Key File |
@@ -16,18 +16,17 @@ The application is built with a modular architecture, separating the UI from the
 | **Skill Engine** | Extracts, compares, and scores predefined technical skills. | [`utils/skills.py`](file:///c:/Users/dell/OneDrive/Desktop/IBM/utils/skills.py) |
 
 ---
-
-## 🔄 2. The Processing Pipeline
+2. The Processing Pipeline
 Every time a user uploads resumes and provides a Job Description, the following sequence occurs:
 
-### Phase A: Job Description (JD) Analysis
+Phase A: Job Description (JD) Analysis
 1. **Cleaning**: The JD text is passed through the NLP preprocessor.
    - Stopwords (e.g., "and", "the") are removed.
    - Punctuation and extra whitespace are stripped.
    - Words are **lemmatized** (e.g., "working" → "work") to ensure consistency.
 2. **Skill Extraction**: The system scans the JD for predefined technical keywords (Python, SQL, Machine Learning, etc.) using case-insensitive regex matching.
 
-### Phase B: Candidate Processing (Per Resume)
+Phase B: Candidate Processing (Per Resume)
 For each uploaded PDF, the system performs:
 1. **Text Extraction**: Extracts all readable text from the PDF pages.
 2. **Text Cleaning**: Applies the same lemmatization and cleaning used for the JD.
@@ -42,9 +41,9 @@ For each uploaded PDF, the system performs:
 
 ---
 
-## 📊 3. Scoring & Ranking Logic
+ 3. Scoring & Ranking Logic
 
-### Core Scoring Mechanism
+Core Scoring Mechanism
 The final ranking is determined by a **Hybrid Score** (0-100%), calculated as follows:
 
 $$ \text{Final Score} = (\text{Semantic Score} \times 0.7) + (\text{Skill Match Score} \times 0.3) $$
@@ -54,7 +53,7 @@ $$ \text{Final Score} = (\text{Semantic Score} \times 0.7) + (\text{Skill Match 
 
 ---
 
-## 🧠 4. Explanation Generation
+4. Explanation Generation
 The "AI Explanation" for each candidate is generated using a rule-based engine:
 
 1. **Skill Evaluation**:
@@ -64,11 +63,5 @@ The "AI Explanation" for each candidate is generated using a rule-based engine:
 2. **Context Evaluation**: Refines the explanation based on whether the Semantic Score is high (contextual relevance) or low.
 3. **Specific Highlights**: The top 2 matched skills and top 2 missing skills are explicitly named to provide actionable feedback.
 
----
-
-## 🛠️ 5. Technical Stack
-- **Dashboard**: [Streamlit](https://streamlit.io/)
-- **NLP**: [spaCy](https://spacy.io/) (for lemmatization and tokenization)
-- **Machine Learning**: [Scikit-learn](https://scikit-learn.org/) (for TF-IDF and Cosine Similarity)
-- **PDF Processing**: [pdfplumber](https://github.com/jsvine/pdfplumber)
+---- **PDF Processing**: [pdfplumber](https://github.com/jsvine/pdfplumber)
 - **Regex**: [re](https://docs.python.org/3/library/re.html) (for precision keyword matching)
